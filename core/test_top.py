@@ -3,7 +3,6 @@ from cocotb.triggers import Timer,Edge,Join
 from cocotb.utils import get_sim_time
 import random
 
-
 async def task(dut):
     print(f"task:{get_sim_time()}")
     await Timer(10, units='ns')
@@ -22,7 +21,7 @@ async def task2(dut):
     print(f"task2:{get_sim_time()}")
 
 @cocotb.test()
-async def read_signal(dut):
+async def tb_top(dut):
     task_coro  = await cocotb.start(task(dut))
     task1_coro = await cocotb.start(task1(dut))
     task2_coro = await cocotb.start(task2(dut))

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module adder #(
+module top #(
   parameter integer DATA_WIDTH = 4
 ) (
   input  logic unsigned [DATA_WIDTH-1:0] A,
@@ -13,7 +13,7 @@ module adder #(
   // Dump waves
   initial begin
     $dumpfile("dump.vcd");
-    $dumpvars(1, adder);
+    $dumpvars(1, top);
   end
 
   logic x=1;

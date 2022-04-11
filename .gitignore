@@ -1,3 +1,4 @@
+*.vcd
 *.swo
 *.swp
 results.xml
