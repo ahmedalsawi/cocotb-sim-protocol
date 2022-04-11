@@ -22,12 +22,14 @@ module adder #(
   logic x=1;
   initial begin
       x =0;
-      $display($time, "Hllow");
+      $display($time, ":From SV");
       #10;
-      $display($time, "Hllow at 10");
+      $display($time, ":From SV");
       #10;
-      $display($time, "Hllow at 20");
+      x =1;
+      $display($time, ":From SV");
       #10;
+      $display($time, ":From SV");
   end
 
 endmodule

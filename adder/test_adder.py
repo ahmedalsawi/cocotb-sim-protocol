@@ -40,25 +40,34 @@ import random
 #        assert dut.X.value == adder_model(A, B), "Randomised test failed with: {A} + {B} = {X}".format(
 #            A=dut.A.value, B=dut.B.value, X=dut.X.value)
 #
-async def f(dut):
-    print(f"ffff:{get_sim_time()}")
-    await Timer(40, units='ns')
-    print(f"ffff:{get_sim_time()}")
-    return "yo"
-
 async def task(dut):
+    print(f"task:{get_sim_time()}")
     await Timer(10, units='ns')
     print(f"task:{get_sim_time()}")
 
+async def task1(dut):
+    print(f"task1:{get_sim_time()}")
+    await Timer(40, units='ns')
+    print(f"task1:{get_sim_time()}")
+    return "yo"
+
+async def task2(dut):
+    print(f"task2:{get_sim_time()}")
+    await  Edge(dut.x)
+    await  Edge(dut.x)
+    print(f"task2:{get_sim_time()}")
+
 @cocotb.test()
 async def read_signal(dut):
-    #await f()
-    f_coro = await cocotb.start(f(dut))
     task_coro  = await cocotb.start(task(dut))
-    print(f"Start:{get_sim_time()}, {dut.x.value}")
+    task1_coro = await cocotb.start(task1(dut))
+    task2_coro = await cocotb.start(task2(dut))
+
+    print(f"main1:{get_sim_time()}, {dut.x.value}")
+
     await Timer(10, units='ns')
-    result = await Join(f_coro)
-    #print(result)
-    #await  Edge(dut.x)
-    print(get_sim_time(), dut.x.value)
+    print(f"main2:{get_sim_time()}, {dut.x.value}")
+
+    result = await Join(task1_coro)
+    print(f"main3:{get_sim_time()}, {dut.x.value}")
 
